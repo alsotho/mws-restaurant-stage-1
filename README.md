@@ -1,8 +1,7 @@
-# FEND Restaurant Review App
+# Udacity FEND Restaurant Review App
 
-The project 6 of the [FEND with Udacity](https://eu.udacity.com/course/front-end-web-developer-nanodegree--nd001).
+Project 6 of the [FEND with Udacity](https://eu.udacity.com/course/front-end-web-developer-nanodegree--nd001).
 
-The goal is to learn Responsive design, service worker to cache the content and accessibility.
 
 ## Get Started
 
