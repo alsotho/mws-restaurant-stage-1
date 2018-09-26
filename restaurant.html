@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
@@ -8,9 +8,7 @@
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <!-- Meta Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-<meta charset="UTF-8">
-    <title>Restaurant Info</title>
+  <title>Restaurant Info</title>
 </head>
 
 <body class="inside">
@@ -22,8 +20,9 @@
     </nav>
     <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" >
-      <li><a href="./">Home</a></li>
+      <li><a href="/">Home</a></li>
     </ul>
+    <a href="#restaurant-container" class="skip-link">Skip the map</a>
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
@@ -37,12 +36,12 @@
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
+    <section id="restaurant-container" tabindex="-1">
+      <h2 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours" aria-label="Opening hours" tabindex="0"></table>
+      <address id="restaurant-address"></address>
+      <table id="restaurant-hours" tabindex='0'></table>
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
@@ -58,13 +57,14 @@
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
+
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7qSc20U_IhXMAuJ83r1S9ThImlLlDBGg&libraries=places&callback=initMap"></script> -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD45xN_fbOxRGZh5KmJHi0lqhVkoNqmAEc&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
 </body>

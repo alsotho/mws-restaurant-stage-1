@@ -1,28 +1,29 @@
-//Initialising the service worker
+/**
+ * Register the service worker
+ */
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('/mws-restaurant-stage-1/sw.js', {
+    .register('./service-worker.js', {
       scope: './'
     })
-    .then(() => {
-      console.log('Service Worker initialised scope:', reg.scope);
+    .then(function () {
+      console.log('Service Worker registered');
     })
-    .catch(error => {
-      console.log('An error occured while trying to load the service worker', error);
-    });
+    .catch(function () {
+      console.log('Service Worker failed to register');
+    })
 }
 
 let restaurants,
   neighborhoods,
-  cuisines;
-var newMap;
-var markers = [];
+  cuisines
+var map
+var markers = []
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
 });
@@ -39,7 +40,7 @@ fetchNeighborhoods = () => {
       fillNeighborhoodsHTML();
     }
   });
-};
+}
 
 /**
  * Set neighborhoods HTML.
@@ -52,7 +53,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     option.value = neighborhood;
     select.append(option);
   });
-};
+}
 
 /**
  * Fetch all cuisines and set their HTML.
@@ -66,7 +67,7 @@ fetchCuisines = () => {
       fillCuisinesHTML();
     }
   });
-};
+}
 
 /**
  * Set cuisines HTML.
@@ -80,10 +81,12 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     option.value = cuisine;
     select.append(option);
   });
-  updateRestaurants();
-};
-//Initializing the Google map which was called from the HTML
- window.initMap = () => {
+}
+
+/**
+ * Initialize Google map, called from HTML.
+ */
+window.initMap = () => {
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -94,7 +97,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     scrollwheel: false
   });
   updateRestaurants();
-};
+}
 
 /**
  * Update page and map for current restaurants.
@@ -116,8 +119,8 @@ updateRestaurants = () => {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
     }
-  });
-};
+  })
+}
 
 /**
  * Clear current restaurants, their HTML and remove their map markers.
@@ -129,12 +132,10 @@ resetRestaurants = (restaurants) => {
   ul.innerHTML = '';
 
   // Remove all map markers
-  if (self.markers) {
-    self.markers.forEach(m => m.setMap(null));
-  }
+  self.markers.forEach(m => m.setMap(null));
   self.markers = [];
   self.restaurants = restaurants;
-};
+}
 
 /**
  * Create all restaurants HTML and add them to the webpage.
@@ -145,7 +146,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
-};
+}
 
 /**
  * Create restaurant HTML.
@@ -156,10 +157,10 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = `An image of the ${restaurant.name}.`;
+  image.alt = restaurant.name;
   li.append(image);
 
-  const name = document.createElement('h2');
+  const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -174,19 +175,30 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details of ' + restaurant.name;
   more.href = DBHelper.urlForRestaurant(restaurant);
-  more.setAttribute('aria-label','Restaurant page','role', 'button');
-  li.append(more);
+  li.append(more)
 
-  return li;
-};
+  return li
+}
 
- addMarkersToMap = (restaurants = self.restaurants) => {
+/**
+ * Add markers for current restaurants to the map.
+ */
+addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
     google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url;
+      window.location.href = marker.url
     });
     self.markers.push(marker);
   });
-};
+}
+
+/**
+ * Add title to the iframe element
+ */
+window.addEventListener('load', function () {
+  let iframeElt = document.querySelector('iframe');
+  iframeElt.setAttribute('title', 'iframe map');
+  iframeElt.setAttribute('tabindex', '-1');
+});
